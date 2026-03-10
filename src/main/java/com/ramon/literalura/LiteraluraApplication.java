@@ -3,6 +3,7 @@ package com.ramon.literalura;
 import com.ramon.literalura.principal.Principal;
 import com.ramon.literalura.repository.LivroRepository;
 import com.ramon.literalura.service.ConsumoApi;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,7 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class LiteraluraApplication implements CommandLineRunner {
 
+    @Autowired
     private LivroRepository repository;
+
     public static void main(String[] args) {
         SpringApplication.run(LiteraluraApplication.class, args);
     }
