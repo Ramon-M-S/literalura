@@ -60,7 +60,7 @@ public class Principal {
                         listarAutoresVivosNoAno();
                         break;
                     case 5:
-                        System.out.println("Em construção...");
+                       listarLivrosPorIdioma();
                         break;
                     case 0:
                         System.out.println("Encerrando a aplicação...");
@@ -133,4 +133,30 @@ public class Principal {
             System.out.println("Entrada inválida! Por favor, digite um ano válido em formato numérico.");
         }
     }
+
+    private void listarLivrosPorIdioma() {
+        System.out.println("""
+                Insira o idioma para realizar a busca:
+                es - espanhol
+                en - inglês
+                fr - francês
+                pt - português
+                """);
+        var idioma = leitura.nextLine();
+
+        var livrosNoIdioma = livroRepository.findByIdioma(idioma);
+
+        if (livrosNoIdioma.isEmpty()) {
+            System.out.println("Não existem livros registrados nesse idioma no momento.");
+        } else {
+            System.out.println("\n--- LIVROS ENCONTRADOS NO IDIOMA '" + idioma.toUpperCase() + "' ---");
+            livrosNoIdioma.forEach(System.out::println);
+
+            // Exibindo a estatística solicitada no desafio
+            System.out.println("\n*** ESTATÍSTICA ***");
+            System.out.println("O total de livros registrados nesse idioma é: " + livrosNoIdioma.size());
+            System.out.println("*******************\n");
+        }
+    }
+
 }
