@@ -2,6 +2,7 @@ package com.ramon.literalura.principal;
 
 import com.ramon.literalura.model.DadosResposta;
 import com.ramon.literalura.model.Livro;
+import com.ramon.literalura.repository.AutorRepository;
 import com.ramon.literalura.repository.LivroRepository;
 import com.ramon.literalura.service.ConsumoApi;
 import com.ramon.literalura.service.ConverteDados;
@@ -14,11 +15,13 @@ public class Principal {
     private ConverteDados conversor = new ConverteDados();
     private final String ENDERECO = "https://gutendex.com/books/?search=";
 
-    // Injeção do repositório
-    private LivroRepository repositorio;
 
-    public Principal(LivroRepository repositorio) {
-        this.repositorio = repositorio;
+    private LivroRepository livroRepository;
+    private AutorRepository autorRepository;
+
+    public Principal(LivroRepository livroRepository, AutorRepository autorRepository) {
+        this.livroRepository = livroRepository;
+        this.autorRepository = autorRepository;
     }
 
     public void exibeMenu() {
@@ -83,7 +86,7 @@ public class Principal {
         if (livroBuscado.isPresent()) {
             Livro livro = new Livro(livroBuscado.get());
             try {
-                repositorio.save(livro);
+                livroRepository.save(livro);
                 System.out.println("Livro salvo com sucesso no banco de dados!");
                 System.out.println(livro);
             } catch (Exception e) {
@@ -95,12 +98,39 @@ public class Principal {
     }
 
     private void listarLivrosRegistrados() {
-        var livros = repositorio.findAll();
+        var livros = livroRepository.findAll();
         if (livros.isEmpty()) {
             System.out.println("Nenhum livro registrado no banco de dados ainda.");
         } else {
             System.out.println("\n--- LIVROS REGISTRADOS ---");
             livros.forEach(System.out::println);
+        }
+    }
+
+    private void listarAutoresRegistrados() {
+        var autores = autorRepository.findAll();
+        if (autores.isEmpty()) {
+            System.out.println("Nenhum autor registrado no banco de dados ainda.");
+        } else {
+            System.out.println("\n--- AUTORES REGISTRADOS ---");
+            autores.forEach(System.out::println);
+        }
+    }
+
+    private void listarAutoresVivosNoAno() {
+        System.out.println("Digite o ano que deseja pesquisar (ex: 1850):");
+        try {
+            var ano = Integer.parseInt(leitura.nextLine());
+            var autoresVivos = autorRepository.autoresVivosNoAno(ano);
+
+            if (autoresVivos.isEmpty()) {
+                System.out.println("Nenhum autor vivo encontrado no ano " + ano + " em nosso banco de dados.");
+            } else {
+                System.out.println("\n--- AUTORES VIVOS NO ANO " + ano + " ---");
+                autoresVivos.forEach(System.out::println);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada inválida! Por favor, digite um ano válido em formato numérico.");
         }
     }
 }

@@ -42,6 +42,10 @@ public class Autor {
 
     @Override
     public String toString() {
-        return "Nome: " + nome + " (Nascimento: " + anoNascimento + " | Falecimento: " + anoFalecimento + ")";
+        List<String> nomesLivros = livros.stream().map(Livro::getTitulo).toList();
+        return "\nAutor: " + nome +
+                "\nAno de Nascimento: " + anoNascimento +
+                "\nAno de Falecimento: " + anoFalecimento +
+                "\nLivros: " + nomesLivros + "\n";
     }
 }
