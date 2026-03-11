@@ -121,7 +121,7 @@ public class Principal {
         System.out.println("Digite o ano que deseja pesquisar (ex: 1850):");
         try {
             var ano = Integer.parseInt(leitura.nextLine());
-            var autoresVivos = autorRepository.autoresVivosNoAno(ano);
+            var autoresVivos = autorRepository.findByAnoNascimentoLessThanEqualAndAnoFalecimentoGreaterThanEqualOrAnoNascimentoLessThanEqualAndAnoFalecimentoIsNull(ano, ano, ano);
 
             if (autoresVivos.isEmpty()) {
                 System.out.println("Nenhum autor vivo encontrado no ano " + ano + " em nosso banco de dados.");
