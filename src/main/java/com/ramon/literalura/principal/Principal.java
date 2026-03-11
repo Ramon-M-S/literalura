@@ -54,10 +54,10 @@ public class Principal {
                         listarLivrosRegistrados();
                         break;
                     case 3:
-                        System.out.println("Em construção...");
+                        listarAutoresRegistrados();
                         break;
                     case 4:
-                        System.out.println("Em construção...");
+                        listarAutoresVivosNoAno();
                         break;
                     case 5:
                         System.out.println("Em construção...");
